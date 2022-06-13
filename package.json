@@ -1,7 +1,9 @@
 {
-  "name": "msf-tut",
-  "version": "0.1.0",
-  "private": true,
+  "name": "Form",
+  "version": "0.1",
+  "description": "steps-form",
+  "author": "FedirYatseta",
+  "license": "MIT",
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
