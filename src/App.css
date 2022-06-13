@@ -1,15 +1,9 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 
 .App {
-  background: rgb(255, 0, 228);
-  background: radial-gradient(
-    circle,
-    rgba(255, 0, 228, 1) 0%,
-    rgba(212, 51, 16, 1) 84%,
-    rgba(255, 0, 95, 1) 100%
-  );
+  background: #f5f5f5;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   display: grid;
   place-items: center;
 }
@@ -30,8 +24,8 @@ body {
 }
 
 .form-container {
-  width: 400px;
-  height: 400px;
+  width: 600px;
+  max-height: 1200px;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
@@ -113,7 +107,7 @@ body {
 }
 
 .progressbar div {
-  width: 33.3%;
+  width: 16.33%;
   height: 100%;
   background-color: rgb(98, 0, 255);
 }
