@@ -48,6 +48,10 @@ export default function BasicInfo({ formData, setFormData }) {
     return (
         <>
             <div>
+                <div className='basic-inf'>
+                    <h1>Basic Information</h1>
+                </div>
+
                 <Grid container spacing={2}>
                     <Grid item xs={6}>
                         <TextField
@@ -121,17 +125,18 @@ export default function BasicInfo({ formData, setFormData }) {
                 </Grid>
             </div>
             <FormControl fullWidth>
-                <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
+                <FormLabel id="demo-radio-buttons-group-label">Cleaning Experience</FormLabel>
+                <FormLabel>Do you have professional cleaning experience? </FormLabel>
                 <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
                     defaultValue="female"
                     name="radio-buttons-group"
                 >
-                    <FormControlLabel style={{ border: '1px solid #f5f5f5', 'borderRadius': '4px', width: '100%' }}
+                    <FormControlLabel className='base-info-bool'
                         value="female"
                         control={<Radio />}
                         label="yes" />
-                    <FormControlLabel value="male" control={<Radio />} label="no" />
+                    <FormControlLabel className='base-info-bool' value="male" control={<Radio />} label="no" />
                 </RadioGroup>
             </FormControl>
             <FormControl fullWidth>

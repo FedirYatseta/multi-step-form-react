@@ -46,11 +46,8 @@ function Form() {
     else if (page === 4) {
       return <Video formData={formData} setFormData={setFormData} />;
     }
-    else if (page === 5) {
-      return <Welcome formData={formData} setFormData={setFormData} />;
-    }
     else {
-      return <OtherInfo formData={formData} setFormData={setFormData} />;
+      return <Welcome formData={formData} setFormData={setFormData} />;
     }
   };
   if (page === 0) return (
@@ -64,15 +61,14 @@ function Form() {
 
           <button
             onClick={() => {
-              if (page === FormTitles.length - 1) {
+              if (page === FormTitles.length - 2) {
                 alert("FORM SUBMITTED");
                 console.log(formData);
               } else {
                 setPage((currPage) => currPage + 1);
               }
             }}
-          >
-            {page === FormTitles.length - 1 ? "Submit" : "NEXT STEP AND SEE RATES"}
+          >NEXT STEP AND SEE RATES
           </button>
         </div>
       </div>
@@ -126,11 +122,12 @@ function Form() {
           </div>
         </div>
       </div>
-      <div className="form-container">
+      <Box>
+        <div className="form-container">
 
-        <div className="body">{PageDisplay()}</div>
-        <div className="footer">
-          {/* <button
+          <div className="body">{PageDisplay()}</div>
+          <div className="footer">
+            {/* <button
               disabled={page === 0}
               onClick={() => {
                 setPage((currPage) => currPage - 1);
@@ -138,20 +135,21 @@ function Form() {
             >
               Prev
             </button> */}
-          <button
-            onClick={() => {
-              if (page === FormTitles.length - 1) {
-                alert("FORM SUBMITTED");
-                console.log(formData);
-              } else {
-                setPage((currPage) => currPage + 1);
-              }
-            }}
-          >
-            {page === FormTitles.length - 1 ? "Submit" : "NEXT STEP AND SEE RATES"}
-          </button>
+            <button
+              onClick={() => {
+                if (page === FormTitles.length - 2) {
+                  alert("FORM SUBMITTED");
+                  console.log(formData);
+                } else {
+                  setPage((currPage) => currPage + 1);
+                }
+              }}
+            >
+              {page === FormTitles.length - 2 ? "Submit" : "NEXT STEP AND SEE RATES"}
+            </button>
+          </div>
         </div>
-      </div>
+      </Box>
     </div>
   );
 }
