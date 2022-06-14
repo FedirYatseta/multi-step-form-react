@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid';
 import { FormLabel, RadioGroup, FormControlLabel, Radio, InputLabel, Select, MenuItem } from '@mui/material/'
 
 
-export default function FormPropsTextFields({ formData, setFormData }) {
+export default function BasicInfo({ formData, setFormData }) {
     const columns = [
         { field: 'id', headerName: '', width: 75 },
         { field: 'Sun', headerName: 'Sun', width: 75, editable: true, type: 'boolean' },
@@ -30,10 +30,10 @@ export default function FormPropsTextFields({ formData, setFormData }) {
     ]
     const [state, setState] = React.useState(initialData)
 
-    //const [age, setAge] = React.useState('');
-    // const handleChange = (event) => {
-    //     setAge(event.target.value);
-    // };
+    const [age, setAge] = React.useState('');
+    const handleChange = (event) => {
+        setAge(event.target.value);
+    };
     // const handleCommit = (e: GridCellEditCommitParams) => {
     //     const arr = state?.map(r => {
     //         if (r.id === e.id) {
@@ -46,26 +46,18 @@ export default function FormPropsTextFields({ formData, setFormData }) {
     //     setState(arr)
     // }
     return (
-        <Box
-            component="form"
-            sx={{
-                '& .MuiTextField-root': { m: 1, width: '25ch' }, margin: '0 20px'
-            }}
-            noValidate
-            autoComplete="off"
-        >
+        <>
             <div>
                 <Grid container spacing={2}>
                     <Grid item xs={6}>
                         <TextField
                             required
                             id="outlined-required"
-                            label="Address"
-                            defaultValue="Street address"
+                            label="Street Address"
                             variant="outlined"
-                            value={formData.Address}
+                            value={formData.baseAddress}
                             onChange={(e) => {
-                                setFormData({ ...formData, Address: e.target.value });
+                                setFormData({ ...formData, baseAddress: e.target.value });
                             }}
                         />
                     </Grid>
@@ -73,10 +65,10 @@ export default function FormPropsTextFields({ formData, setFormData }) {
                         <TextField
                             id="outlined-basic"
                             variant="outlined"
-                            defaultValue=""
-                            value={formData.apt}
+                            label="APT # optional"
+                            value={formData.baseApt}
                             onChange={(e) => {
-                                setFormData({ ...formData, apt: e.target.value });
+                                setFormData({ ...formData, baseApt: e.target.value });
                             }}
                         />
                     </Grid>
@@ -86,9 +78,9 @@ export default function FormPropsTextFields({ formData, setFormData }) {
                             id="outlined-required"
                             label="City"
                             variant="outlined"
-                            value={formData.City}
+                            value={formData.baseCity}
                             onChange={(e) => {
-                                setFormData({ ...formData, City: e.target.value });
+                                setFormData({ ...formData, baseCity: e.target.value });
                             }}
                         />
                     </Grid>
@@ -98,9 +90,9 @@ export default function FormPropsTextFields({ formData, setFormData }) {
                             id="outlined-required"
                             label="State"
                             variant="outlined"
-                            value={formData.State}
+                            value={formData.baseState}
                             onChange={(e) => {
-                                setFormData({ ...formData, State: e.target.value });
+                                setFormData({ ...formData, baseState: e.target.value });
                             }}
                         />
                     </Grid>
@@ -111,20 +103,19 @@ export default function FormPropsTextFields({ formData, setFormData }) {
                             label="Phone Number"
                             type="number"
                             variant="outlined"
-                            value={formData.Phone}
+                            value={formData.basePhone}
                             onChange={(e) => {
-                                setFormData({ ...formData, Phone: e.target.value });
+                                setFormData({ ...formData, basePhone: e.target.value });
                             }}
                         /></Grid>
                     <Grid item xs={6}>
                         <TextField
                             id="outlined-required"
-                            label="DOB"
                             type="date"
-                            variant="outlined"
-                            value={formData.DOB}
+                            //variant="outlined"
+                            value={formData.baseDOB}
                             onChange={(e) => {
-                                setFormData({ ...formData, DOB: e.target.value });
+                                setFormData({ ...formData, baseDOB: e.target.value });
                             }}
                         /></Grid>
                 </Grid>
@@ -135,9 +126,11 @@ export default function FormPropsTextFields({ formData, setFormData }) {
                     aria-labelledby="demo-radio-buttons-group-label"
                     defaultValue="female"
                     name="radio-buttons-group"
-
                 >
-                    <FormControlLabel style={{ border: '1px solid #f5f5f5', 'borderRadius': '4px', width: '100%' }} value="female" control={<Radio />} label="yes" />
+                    <FormControlLabel style={{ border: '1px solid #f5f5f5', 'borderRadius': '4px', width: '100%' }}
+                        value="female"
+                        control={<Radio />}
+                        label="yes" />
                     <FormControlLabel value="male" control={<Radio />} label="no" />
                 </RadioGroup>
             </FormControl>
@@ -146,9 +139,9 @@ export default function FormPropsTextFields({ formData, setFormData }) {
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                // value={age}
-                //label="Age"
-                // onChange={handleChange}
+                    value={age}
+                    label="Age"
+                    onChange={handleChange}
                 >
                     <MenuItem value={10}>Ten</MenuItem>
                     <MenuItem value={20}>Twenty</MenuItem>
@@ -203,7 +196,7 @@ export default function FormPropsTextFields({ formData, setFormData }) {
                 //onCellEditCommit={handleCommit}
                 />
             </div>
-            <h1>{JSON.stringify(state)}</h1>
-        </Box>
+            {/* <h1>{JSON.stringify(state)}</h1> */}
+        </>
     );
 }

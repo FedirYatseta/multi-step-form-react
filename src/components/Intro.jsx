@@ -82,9 +82,9 @@ function Intro({ formData, setFormData }) {
           />
         </Grid>
       </Grid>
-      <FormControl fullWidth >
+      <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">City</InputLabel>
-        <Select
+        <Select className='item-city'
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={formData.City}
@@ -103,4 +103,4 @@ function Intro({ formData, setFormData }) {
   );
 }
 
-export default Rates;
+export default Intro;
