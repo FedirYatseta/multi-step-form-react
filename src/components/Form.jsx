@@ -1,16 +1,77 @@
 import React, { useState } from "react";
-import OtherInfo from "./Welcome";
-import FormPropsTextFields from './BasicForm'
-import { Box } from "@mui/system";
 import Video from "./Video";
 import Intro from './Intro'
 import Rate from './Rate';
 import BasicInfo from "./BasicForm";
 import Bio from "./Bio";
 import Welcome from "./Welcome";
+import Box from '@mui/material/Box';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
+import MobileStepper from '@mui/material/MobileStepper';
+import { Grid } from "@mui/material";
 
+import Container from '@mui/material/Container';
+
+const ColorButton = styled(Button)(({ theme }) => ({
+  color: theme.palette.getContrastText('#fff'),
+  backgroundColor: '#77c977',
+  '&:hover': {
+    backgroundColor: '#71bd71',
+  },
+}));
 function Form() {
-  const [page, setPage] = useState(0);
+  const [activeStep, setActiveStep] = React.useState(0);
+  const [skipped, setSkipped] = React.useState(new Set());
+
+
+  const isStepOptional = (step) => {
+    return step === 1;
+  };
+
+  const isStepSkipped = (step) => {
+    return skipped.has(step);
+  };
+
+  const handleNext = () => {
+    let newSkipped = skipped;
+    if (isStepSkipped(activeStep)) {
+      newSkipped = new Set(newSkipped.values());
+      newSkipped.delete(activeStep);
+
+    }
+
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setSkipped(newSkipped);
+    console.log(formData);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleSkip = () => {
+    if (!isStepOptional(activeStep)) {
+      // You probably want to guard against something like this,
+      // it should never occur unless someone's actively trying to break something.
+      throw new Error("You can't skip a step that isn't optional.");
+    }
+
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setSkipped((prevSkipped) => {
+      const newSkipped = new Set(prevSkipped.values());
+      newSkipped.add(activeStep);
+      return newSkipped;
+    });
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+  };
   const [formData, setFormData] = useState({
     FirstName: "",
     LastName: "",
@@ -23,134 +84,131 @@ function Form() {
     baseState: "",
     basePhone: '',
     baseDOB: '',
-    State: '',
-    Phone: '',
-    DOB: '',
+    question_1: '',
+    question_2: '',
+    question_3: '',
+    question_4: '',
+    question_5: '',
+    question_6: '',
     workAvailability: []
   });
 
-  const FormTitles = ["", "intro", "rates", "basic inform", "your bio", "video interview", "Welcome video"];
+  const FormTitles = ["intro", "rates", "basic inform", "your bio", "video interview", "Welcome video"];
 
   const PageDisplay = () => {
-    if (page === 0) {
+    if (activeStep === 0) {
       return <Intro formData={formData} setFormData={setFormData} />;
-    } else if (page === 1) {
+    } else if (activeStep === 1) {
       return <Rate formData={formData} setFormData={setFormData} />;
     }
-    else if (page === 2) {
+    else if (activeStep === 2) {
       return <BasicInfo formData={formData} setFormData={setFormData} />;
     }
-    else if (page === 3) {
+    else if (activeStep === 3) {
       return <Bio formData={formData} setFormData={setFormData} />;
     }
-    else if (page === 4) {
+    else if (activeStep === 4) {
       return <Video formData={formData} setFormData={setFormData} />;
     }
     else {
       return <Welcome formData={formData} setFormData={setFormData} />;
     }
   };
-  if (page === 0) return (
-    <Box >
-      <div className="form-container">
-        <div className="header">
-          <h1>{FormTitles[page]}</h1>
+  if (activeStep === 0) return (
+    <Box>
+      <Container maxWidth="sm" sx={{ bgcolor: '#fff', borderRadius: '4px', py: 5 }} >
+        <div>{PageDisplay()}</div>
+        <div>
+          <React.Fragment>
+            <Box sx={{ display: 'flex', flexDirection: 'row', py: 3, width: '100%' }}>
+              <ColorButton variant="contained" fullWidth sx={{ p: 2 }} onClick={handleNext}>
+                {activeStep === FormTitles.length - 1
+                  ? 'Finish' : 'Next'}
+              </ColorButton>
+            </Box>
+          </React.Fragment>
         </div>
-        <div className="body">{PageDisplay()}</div>
-        <div className="footer">
-
-          <button
-            onClick={() => {
-              if (page === FormTitles.length - 2) {
-                alert("FORM SUBMITTED");
-                console.log(formData);
-              } else {
-                setPage((currPage) => currPage + 1);
-              }
-            }}
-          >NEXT STEP AND SEE RATES
-          </button>
-        </div>
-      </div>
+      </Container>
     </Box>
   )
   return (
-    <div className="form">
-      <div className="form-container-step">
-        <h1>Step {page + 1} of 6 </h1>
-        <div className="progressbar">
-          <div
-            style={{
-              width: page === 1 ? "20%"
-                : page === 2 ? "40%"
-                  : page === 3 ? "60%"
-                    : page === 4 ? "80%"
-                      : page === 5 ? "100%" : "100%"
-            }}
-          >  </div>
-
-        </div>
-        <div className="header">
-          <div className='step-by-step'>
-            <div >
-              <button
-                onClick={() => {
-                  setPage((currPage) => currPage - currPage);
-                }}
-              ><span className="material-symbols-outlined" style={{ color: page === 0 ? "#77c977" : '', display: page === 0 ? "flex" : 'flex' }}>check_circle</span>1 {FormTitles[1]}</button>
-              <button onClick={() => {
-                setPage((currPage) => currPage - currPage + 1);
-              }}><span className="material-symbols-outlined" style={{ color: page === 1 ? "#77c977" : '', display: page === 1 ? "flex" : 'flex' }}>check_circle</span>2 {FormTitles[2]}</button>
-              <button
-                onClick={() => {
-                  setPage((currPage) => currPage - currPage + 2);
-                }}><span className="material-symbols-outlined" style={{ color: page === 2 ? "#77c977" : '', display: page === 2 ? "flex" : 'flex' }}>check_circle</span>3 {FormTitles[3]}</button>
-              <button
-                onClick={() => {
-                  setPage((currPage) => currPage - currPage + 3);
-                }}><span className="material-symbols-outlined" style={{ color: page === 3 ? "#77c977" : '', display: page === 3 ? "flex" : 'flex' }}>check_circle</span>4 {FormTitles[4]}</button>
-              <button
-                onClick={() => {
-                  setPage((currPage) => currPage - currPage + 4);
-                }}><span className="material-symbols-outlined" style={{ color: page === 4 ? "#77c977" : '', display: page === 4 ? "flex" : 'flex' }}>check_circle</span>5 {FormTitles[5]}</button>
-              <button
-                onClick={() => {
-                  setPage((currPage) => currPage - currPage + 5);
-                }}><span className="material-symbols-outlined" style={{ color: page === 5 ? "#77c977" : '', display: page === 5 ? "flex" : 'flex' }}>check_circle</span>6 {FormTitles[6]}</button>
-
-            </div>
-          </div>
-        </div>
-      </div>
-      <Box>
-        <div className="form-container">
-
-          <div className="body">{PageDisplay()}</div>
-          <div className="footer">
-            {/* <button
-              disabled={page === 0}
-              onClick={() => {
-                setPage((currPage) => currPage - 1);
+    <Box sx={{ flexGrow: 2 }}>
+      <Grid container spacing={2} sx={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        flexDirection: 'row',
+        alignContent: 'center',
+        justifyContent: 'center',
+        p: '30px'
+      }}>
+        <Grid item xs={3} sx={{ display: { xs: 'none', sm: 'block' } }}>
+          <Container maxWidth="sm" sx={{ bgcolor: '#fff', borderRadius: '4px', py: 5 }} >
+            <Typography fullWidth sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1} of {FormTitles.length}</Typography>
+            <MobileStepper variant="progress"
+              steps={6}
+              position="static"
+              activeStep={activeStep}
+              sx={{
+                maxWidth: 400, flexGrow: 1,
+                "& .MuiMobileStepper-progress": { width: "100%", bgcolor: '#dfdfdf', height: 10 },
+                "& .MuiLinearProgress-bar	": { bgcolor: '#71bd71' }
               }}
-            >
-              Prev
-            </button> */}
-            <button
-              onClick={() => {
-                if (page === FormTitles.length - 2) {
-                  alert("FORM SUBMITTED");
-                  console.log(formData);
-                } else {
-                  setPage((currPage) => currPage + 1);
+            />
+            <Stepper activeStep={activeStep} orientation="vertical" sx={{
+              "& .MuiStepConnector-root.Mui-completed .MuiStepConnector-line": { minHeight: "0px", color: '#77c977' },
+              "& .MuiStepConnector-root.Mui-active .MuiStepConnector-line": { minHeight: "0px", },
+              "& .MuiStepConnector-root.Mui-disabled .MuiStepConnector-line": { minHeight: "0px", },
+              "& .MuiStepIcon-root.Mui-active": { color: "#71bd71", },
+              "& .MuiStepIcon-root.Mui-completed": { color: "#71bd71", },
+              "& .MuiStepIcon-root": { color: "#fff" }
+            }} >
+              {FormTitles.map((label, index) => {
+                const stepProps = {};
+                const labelProps = {};
+                if (isStepSkipped(index)) {
+                  stepProps.completed = false;
                 }
-              }}
-            >
-              {page === FormTitles.length - 2 ? "Submit" : "NEXT STEP AND SEE RATES"}
-            </button>
-          </div>
-        </div>
-      </Box>
-    </div>
+                return (
+                  <Step key={label} {...stepProps} >
+                    <StepLabel {...labelProps} >{label}</StepLabel>
+                  </Step>
+                );
+              })}
+            </Stepper>
+          </Container>
+        </Grid>
+        <Grid item xs={7}>
+          <Container maxWidth="sm" sx={{ bgcolor: '#fff', borderRadius: '4px', py: 5 }} >
+            <div>{PageDisplay()}</div>
+            <div>
+              {activeStep === FormTitles.length ? (
+                <React.Fragment>
+                  <Typography sx={{ mt: 2, mb: 1 }}>
+                    All FormTitles completed - you&apos;re finished
+                  </Typography>
+                  <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                    <Box sx={{ flex: '1 1 auto' }} />
+                    <Button onClick={handleReset} >Reset</Button>
+                  </Box>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <Box sx={{ display: 'flex', flexDirection: 'row', py: 3, width: '100%' }}>
+
+                    <ColorButton variant="contained" fullWidth sx={{ p: 2 }} onClick={handleNext}>
+
+                      {activeStep === FormTitles.length - 1 ? 'Finish' : activeStep === 1
+                        ? 'Get My First Job in 24 Hours!' : 'Next'}
+
+                    </ColorButton>
+                  </Box>
+                </React.Fragment>
+              )}
+            </div>
+          </Container>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
 
