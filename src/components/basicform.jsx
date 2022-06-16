@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid';
 import { FormLabel, RadioGroup, FormControlLabel, Radio, InputLabel, Select, MenuItem } from '@mui/material/'
 
 import Autocomplete from '@mui/material/Autocomplete';
-
+const options = ['1', '2'];
 export default function BasicInfo({ formData, setFormData }) {
     const columns = [
         { field: 'id', headerName: '', width: 75 },
@@ -30,25 +30,26 @@ export default function BasicInfo({ formData, setFormData }) {
 
     ]
     //const [state, setState] = React.useState(initialData)
-    const theAge = ['1', '2', '3']
-    const [value, setValue] = React.useState(null);
+
+    const [value, setValue] = React.useState(options[0]);
     const [age, setAge] = React.useState('');
     const handleChange = (event) => {
         setAge(event.target.value);
     };
+    //const [value, setValue] = React.useState(theAge[0]);
+
     return (
         <Box>
             <div>
                 <div>
                     <h1>Basic Information</h1>
                 </div>
-
                 <Grid container spacing={2}>
                     <Grid item xs={6}>
-                        <TextField
+                        <FormLabel id="demo-simple-select-label" required>Street Address</FormLabel>
+                        <TextField fullWidth
                             required
                             id="outlined-required"
-                            label="Street Address"
                             variant="outlined"
                             value={formData.baseAddress}
                             onChange={(e) => {
@@ -57,10 +58,10 @@ export default function BasicInfo({ formData, setFormData }) {
                         />
                     </Grid>
                     <Grid item xs={4}>
-                        <TextField
+                        <FormLabel id="demo-simple-select-label" required>APT # (optional)</FormLabel>
+                        <TextField fullWidth
                             id="outlined-basic"
                             variant="outlined"
-                            label="APT # optional"
                             value={formData.baseApt}
                             onChange={(e) => {
                                 setFormData({ ...formData, baseApt: e.target.value });
@@ -68,10 +69,10 @@ export default function BasicInfo({ formData, setFormData }) {
                         />
                     </Grid>
                     <Grid item xs={6}>
-                        <TextField
+                        <FormLabel id="demo-simple-select-label" required>City</FormLabel>
+                        <TextField fullWidth
                             required
                             id="outlined-required"
-                            label="City"
                             variant="outlined"
                             value={formData.baseCity}
                             onChange={(e) => {
@@ -80,10 +81,10 @@ export default function BasicInfo({ formData, setFormData }) {
                         />
                     </Grid>
                     <Grid item xs={4}>
-                        <TextField
+                        <FormLabel id="demo-simple-select-label" required>State</FormLabel>
+                        <TextField fullWidth
                             required
                             id="outlined-required"
-                            label="State"
                             variant="outlined"
                             value={formData.baseState}
                             onChange={(e) => {
@@ -92,10 +93,10 @@ export default function BasicInfo({ formData, setFormData }) {
                         />
                     </Grid>
                     <Grid item xs={6}>
-                        <TextField
+                        <FormLabel id="demo-simple-select-label" required>Phone Number</FormLabel>
+                        <TextField fullWidth
                             required
                             id="outlined-required"
-                            label="Phone Number"
                             type="number"
                             variant="outlined"
                             value={formData.basePhone}
@@ -105,6 +106,7 @@ export default function BasicInfo({ formData, setFormData }) {
                         />
                     </Grid>
                     <Grid item xs={4}>
+                        <FormLabel id="demo-simple-select-label" required>  DOB</FormLabel>
                         <TextField fullWidth sx={{ m: 0, p: 0 }} id="outlined-required"
                             type="date"
                             variant="outlined"
@@ -123,14 +125,14 @@ export default function BasicInfo({ formData, setFormData }) {
                     defaultValue="Yes"
                     name="radio-buttons-group"
                 >
-                    <FormControlLabel sx={{ border: '1px solid #cdcdcd', borderRadius: 2, my: 1, mx: 0 }}
+                    <FormControlLabel sx={{ border: '1px solid #cdcdcd', borderRadius: 2, mt: 1, mx: 0 }}
                         value="Yes"
                         control={<Radio />}
                         label="Yes"
                         onChange={(e) => {
                             setFormData({ ...formData, question_1: e.target.value });
                         }} />
-                    <FormControlLabel sx={{ border: '1px solid #cdcdcd', borderRadius: 2, my: 1, mx: 0 }}
+                    <FormControlLabel sx={{ border: '1px solid #cdcdcd', borderRadius: 2, mt: 1, mx: 0 }}
                         value="No"
                         control={<Radio />}
                         label="No" onChange={(e) => {
@@ -142,15 +144,13 @@ export default function BasicInfo({ formData, setFormData }) {
                 <FormLabel sx={{ m: 0, py: 2 }}>How many years of experience do you have? </FormLabel>
                 <Autocomplete
                     value={value}
-                    selectOnFocus
-                    disablePortal
-                    id="combo-box-demo"
-                    options={theAge}
-                    onChange={(e) => {
-                        setFormData({ ...formData, question_2: e.target.value });
+                    onChange={(event, newValue) => {
+                        setValue(newValue);
+                        setFormData({ ...formData, question_2: newValue });
                     }}
-                    renderInput={(params) => <TextField {...params} label="1" />}
-                />
+                    id="controllable-states-demo"
+                    options={options}
+                    renderInput={(params) => <TextField {...params} />} />
             </FormControl>
             <FormControl fullWidth sx={{ m: 0, py: 2 }}>
                 <FormLabel id="demo-radio-buttons-group-label" sx={{ m: 0, py: 2 }}>Can you legally work in the us?  </FormLabel>
@@ -159,12 +159,12 @@ export default function BasicInfo({ formData, setFormData }) {
                     defaultValue="Yes"
                     name="radio-buttons-group"
                 >
-                    <FormControlLabel sx={{ border: '1px solid #cdcdcd', borderRadius: 2, my: 1, mx: 0 }}
+                    <FormControlLabel sx={{ border: '1px solid #cdcdcd', borderRadius: 2, mt: 1, mx: 0 }}
                         value="Yes" control={<Radio />} label="Yes"
                         onChange={(e) => {
                             setFormData({ ...formData, question_3: e.target.value });
                         }} />
-                    <FormControlLabel sx={{ border: '1px solid #cdcdcd', borderRadius: 2, my: 1, mx: 0 }}
+                    <FormControlLabel sx={{ border: '1px solid #cdcdcd', borderRadius: 2, mt: 1, mx: 0 }}
                         value="No" control={<Radio />} label="No"
                         onChange={(e) => {
                             setFormData({ ...formData, question_3: e.target.value });
@@ -178,12 +178,12 @@ export default function BasicInfo({ formData, setFormData }) {
                     defaultValue="Yes"
                     name="radio-buttons-group"
                 >
-                    <FormControlLabel sx={{ border: '1px solid #cdcdcd', borderRadius: 2, my: 1, mx: 0 }}
+                    <FormControlLabel sx={{ border: '1px solid #cdcdcd', borderRadius: 2, mt: 1, mx: 0 }}
                         value="Yes" control={<Radio />} label="Yes"
                         onChange={(e) => {
                             setFormData({ ...formData, question_4: e.target.value });
                         }} />
-                    <FormControlLabel sx={{ border: '1px solid #cdcdcd', borderRadius: 2, my: 1, mx: 0 }}
+                    <FormControlLabel sx={{ border: '1px solid #cdcdcd', borderRadius: 2, mt: 1, mx: 0 }}
                         value="No" control={<Radio />} label="No"
                         onChange={(e) => {
                             setFormData({ ...formData, question_4: e.target.value });
@@ -197,41 +197,41 @@ export default function BasicInfo({ formData, setFormData }) {
                     defaultValue="Yes"
                     name="radio-buttons-group"
                 >
-                    <FormControlLabel sx={{ border: '1px solid #cdcdcd', borderRadius: 2, my: 1, mx: 0 }}
+                    <FormControlLabel sx={{ border: '1px solid #cdcdcd', borderRadius: 2, mt: 1, mx: 0 }}
                         value="Yes" control={<Radio />} label="Yes"
                         onChange={(e) => {
                             setFormData({ ...formData, question_5: e.target.value });
                         }} />
-                    <FormControlLabel sx={{ border: '1px solid #cdcdcd', borderRadius: 2, my: 1, mx: 0 }}
+                    <FormControlLabel sx={{ border: '1px solid #cdcdcd', borderRadius: 2, mt: 1, mx: 0 }}
                         value="No" control={<Radio />} label="No" onChange={(e) => {
                             setFormData({ ...formData, question_5: e.target.value });
                         }} />
                 </RadioGroup>
             </FormControl>
             <FormControl fullWidth sx={{ m: 0, py: 2 }}>
-                <FormLabel id="demo-radio-buttons-group-label">You’ll need to get to cleans across the city, do you have transport</FormLabel>
+                <FormLabel id="demo-radio-buttons-group-label">You’ll need to get to cleans across the city, do you have transport ?</FormLabel>
                 <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
                     defaultValue="personal"
                     name="radio-buttons-group"
                 >
-                    <FormControlLabel sx={{ border: '1px solid #cdcdcd', borderRadius: 2, my: 1, mx: 0 }}
+                    <FormControlLabel sx={{ border: '1px solid #cdcdcd', borderRadius: 2, mt: 1, mx: 0 }}
                         value="personal" control={<Radio />} label="Yes, I have a vehicle"
                         onChange={(e) => {
                             setFormData({ ...formData, question_6: e.target.value });
                         }}
                     />
-                    <FormControlLabel sx={{ border: '1px solid #cdcdcd', borderRadius: 2, my: 1, mx: 0 }}
+                    <FormControlLabel sx={{ border: '1px solid #cdcdcd', borderRadius: 2, mt: 1, mx: 0 }}
                         value="public" control={<Radio />} label="Yes, I take public transportation" onChange={(e) => {
                             setFormData({ ...formData, question_6: e.target.value });
                         }} />
-                    <FormControlLabel sx={{ border: '1px solid #cdcdcd', borderRadius: 2, my: 1, mx: 0 }}
+                    <FormControlLabel sx={{ border: '1px solid #cdcdcd', borderRadius: 2, mt: 1, mx: 0 }}
                         value="No" control={<Radio />} label="No" onChange={(e) => {
                             setFormData({ ...formData, question_6: e.target.value });
                         }} />
                 </RadioGroup>
             </FormControl>
-            <Box sx={{ m: 0, py: 2, height: 300, }}>
+            <FormControl fullWidth sx={{ m: 0, py: 2 }}>
                 <FormLabel >Work Availability</FormLabel>
                 <DataGrid required
                     rows={rows}
@@ -242,7 +242,7 @@ export default function BasicInfo({ formData, setFormData }) {
                     hideFooterPagination
                 //onCellEditCommit={handleCommit}
                 />
-            </Box>
+            </FormControl>
             {/* <h1>{JSON.stringify(state)}</h1> */}
         </Box>
     );

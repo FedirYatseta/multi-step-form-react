@@ -90,7 +90,8 @@ function Form() {
     question_4: '',
     question_5: '',
     question_6: '',
-    workAvailability: []
+    workAvailability: [],
+    img: [],
   });
 
   const FormTitles = ["intro", "rates", "basic inform", "your bio", "video interview", "Welcome video"];
@@ -114,23 +115,6 @@ function Form() {
       return <Welcome formData={formData} setFormData={setFormData} />;
     }
   };
-  if (activeStep === 0) return (
-    <Box>
-      <Container maxWidth="sm" sx={{ bgcolor: '#fff', borderRadius: '4px', py: 5 }} >
-        <div>{PageDisplay()}</div>
-        <div>
-          <React.Fragment>
-            <Box sx={{ display: 'flex', flexDirection: 'row', py: 3, width: '100%' }}>
-              <ColorButton variant="contained" fullWidth sx={{ p: 2 }} onClick={handleNext}>
-                {activeStep === FormTitles.length - 1
-                  ? 'Finish' : 'Next'}
-              </ColorButton>
-            </Box>
-          </React.Fragment>
-        </div>
-      </Container>
-    </Box>
-  )
   return (
     <Box sx={{ flexGrow: 2 }}>
       <Grid container spacing={2} sx={{
@@ -139,9 +123,9 @@ function Form() {
         flexDirection: 'row',
         alignContent: 'center',
         justifyContent: 'center',
-        p: '30px'
+        p: '10px'
       }}>
-        <Grid item xs={3} sx={{ display: { xs: 'none', sm: 'block' } }}>
+        <Grid item xs={12} sm={3} sx={{ height: '100%', display: activeStep === 0 ? 'none' : 'block' }}>
           <Container maxWidth="sm" sx={{ bgcolor: '#fff', borderRadius: '4px', py: 5 }} >
             <Typography fullWidth sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1} of {FormTitles.length}</Typography>
             <MobileStepper variant="progress"
@@ -150,17 +134,19 @@ function Form() {
               activeStep={activeStep}
               sx={{
                 maxWidth: 400, flexGrow: 1,
-                "& .MuiMobileStepper-progress": { width: "100%", bgcolor: '#dfdfdf', height: 10 },
+                "& .MuiMobileStepper-progress": { width: "100%", bgcolor: '#dfdfdf', height: 15, borderRadius: 5 },
                 "& .MuiLinearProgress-bar	": { bgcolor: '#71bd71' }
               }}
             />
             <Stepper activeStep={activeStep} orientation="vertical" sx={{
+              //class="MuiStepper-root MuiStepper-vertical css-18k37r4-MuiStepper-root"
+              "& .MuiStepper-root. MuiStepper-vertical": { display: { xs: 'none', sm: 'block' } },
               "& .MuiStepConnector-root.Mui-completed .MuiStepConnector-line": { minHeight: "0px", color: '#77c977' },
               "& .MuiStepConnector-root.Mui-active .MuiStepConnector-line": { minHeight: "0px", },
               "& .MuiStepConnector-root.Mui-disabled .MuiStepConnector-line": { minHeight: "0px", },
               "& .MuiStepIcon-root.Mui-active": { color: "#71bd71", },
               "& .MuiStepIcon-root.Mui-completed": { color: "#71bd71", },
-              "& .MuiStepIcon-root": { color: "#fff" }
+              "& .MuiStepIcon-root": { color: "#fff", }
             }} >
               {FormTitles.map((label, index) => {
                 const stepProps = {};
@@ -177,7 +163,7 @@ function Form() {
             </Stepper>
           </Container>
         </Grid>
-        <Grid item xs={7}>
+        <Grid item xs={12} sm={8}>
           <Container maxWidth="sm" sx={{ bgcolor: '#fff', borderRadius: '4px', py: 5 }} >
             <div>{PageDisplay()}</div>
             <div>
@@ -193,13 +179,14 @@ function Form() {
                 </React.Fragment>
               ) : (
                 <React.Fragment>
-                  <Box sx={{ display: 'flex', flexDirection: 'row', py: 3, width: '100%' }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'row', py: 0, width: '100%' }}>
 
                     <ColorButton variant="contained" fullWidth sx={{ p: 2 }} onClick={handleNext}>
 
-                      {activeStep === FormTitles.length - 1 ? 'Finish' : activeStep === 1
-                        ? 'Get My First Job in 24 Hours!' : 'Next'}
-
+                      {activeStep === FormTitles.length - 1 ? 'Start Application'
+                        : activeStep === 0 ? ' NEXT STEP AND SEE RATES '
+                          : activeStep === 1 ? 'Get My First Job in 24 Hours!' :
+                            'NEXT STEP'}
                     </ColorButton>
                   </Box>
                 </React.Fragment>
